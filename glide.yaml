@@ -1,0 +1,3 @@
+package: github.com/nii236/gotemplate
+import:
+- package: github.com/julienschmidt/httprouter
