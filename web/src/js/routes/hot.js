@@ -6,29 +6,41 @@ import {
 	hashHistory
 } from 'react-router'
 
-import { Button } from 'semantic-ui-react'
+import { Header, Icon, Image } from 'semantic-ui-react'
+import {observer} from 'mobx-react'
 
 import DevTools from 'mobx-react-devtools'
 
-const routes = (
-	<div>
-		<Router history={hashHistory}>
-			<Route
-				path="/"
-				component={
-					function Test() {
-						return (<div>
-							<Button primary>
-								Press here
-							</Button>
-							hello world
-						</div>)
-					}
-				}
-			/>
-		</Router>
-		<DevTools />
-	</div>
-)
+const Routes = (props) => {
+	const { todoList } = props
+	todoList.todos.map( todo => {
+		console.log(todo.finished)
+	})
 
-export default routes
+	return (
+		<div>
+			<Router history={hashHistory}>
+				<Route
+					path="/"
+					component={
+						function Test() {
+							return (
+								<div>
+									<Header as='h2' icon textAlign='center'>
+										<Icon name='users' circular />
+										<Header.Content>
+											Friends
+										</Header.Content>
+									</Header>
+									<Image centered size='large' src='http://semantic-ui.com/images/wireframe/centered-paragraph.png' />
+								</div>
+							)}
+					}
+				/>
+			</Router>
+			<DevTools />
+		</div>
+	)
+}
+
+export default observer(Routes)
