@@ -6,30 +6,49 @@ import (
 	"github.com/julienschmidt/httprouter"
 )
 
+type muxMux struct {
+	files *http.ServeMux
+	api   *httprouter.Router
+}
+
+func (mm *muxMux) ServeHTTP(w http.ResponseWriter, r *http.Request) {
+	if r.Header.Get("X-API") != "" {
+		mm.api.ServeHTTP(w, r)
+	} else {
+		mm.files.ServeHTTP(w, r)
+	}
+}
+
 func main() {
-	r := httprouter.New()
+	apiMux := httprouter.New()
 
-	r.POST("/users/sign_in", sessionCreate)
-	r.DELETE("/users/sign_out", sessionDelete)
+	apiMux.POST("/users/sign_in", sessionCreate)
+	apiMux.DELETE("/users/sign_out", sessionDelete)
 
-	r.POST("/users", userCreate)
-	r.PATCH("/users", userForgotPassword)
+	apiMux.POST("/users", userCreate)
+	apiMux.PATCH("/users", userForgotPassword)
 
-	r.GET("/admin/members/index/", adminMembersIndex)
-	r.POST("/admin/members/create/:id", adminMembersCreate)
-	r.GET("/admin/members/read/:id", adminMembersRead)
-	r.PATCH("/admin/members/update/:id", adminMembersUpdate)
-	r.DELETE("/admin/members/delete/:id", adminMembersDelete)
+	apiMux.GET("/admin/members/index/", adminMembersIndex)
+	apiMux.POST("/admin/members/create/:id", adminMembersCreate)
+	apiMux.GET("/admin/members/read/:id", adminMembersRead)
+	apiMux.PATCH("/admin/members/update/:id", adminMembersUpdate)
+	apiMux.DELETE("/admin/members/delete/:id", adminMembersDelete)
 
-	r.GET("/admin/admins/index/", adminAdminsIndex)
-	r.POST("/admin/admins/create/:id", adminAdminsCreate)
-	r.GET("/admin/admins/read/:id", adminAdminsRead)
-	r.PATCH("/admin/admins/update/:id", adminAdminsUpdate)
-	r.DELETE("/admin/admins/delete/:id", adminAdminsDelete)
+	apiMux.GET("/admin/admins/index/", adminAdminsIndex)
+	apiMux.POST("/admin/admins/create/:id", adminAdminsCreate)
+	apiMux.GET("/admin/admins/read/:id", adminAdminsRead)
+	apiMux.PATCH("/admin/admins/update/:id", adminAdminsUpdate)
+	apiMux.DELETE("/admin/admins/delete/:id", adminAdminsDelete)
 
-	r.GET("/", entryHandler)
+	filesMux := http.NewServeMux()
+	filesMux.Handle("/", http.FileServer(http.Dir("./web/dest/")))
+	apiMux.GET("/", entryHandler)
+	mm := &muxMux{
+		api:   apiMux,
+		files: filesMux,
+	}
 
-	http.ListenAndServe(":8080", r)
+	http.ListenAndServe(":8080", mm)
 }
 
 func sessionCreate(w http.ResponseWriter, r *http.Request, ps httprouter.Params) {
@@ -56,7 +75,7 @@ func adminMembersIndex(w http.ResponseWriter, r *http.Request, ps httprouter.Par
 	panic("Not implemented")
 }
 
-func adminMembersCreate(w http.ResponseWriter, r *http.Request, ps httprouter.Paramzs) {
+func adminMembersCreate(w http.ResponseWriter, r *http.Request, ps httprouter.Params) {
 	panic("Not implemented")
 }
 

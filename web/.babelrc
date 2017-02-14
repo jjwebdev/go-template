@@ -1,0 +1,13 @@
+{
+  "plugins": [
+    "babel-plugin-transform-decorators-legacy",
+    "transform-react-remove-prop-types",
+    "syntax-async-generators",
+    "syntax-decorators",
+    "transform-decorators",
+    "transform-regenerator"
+  ],
+
+  "presets": ["react", "es2015", "stage-0"]
+}
+
