@@ -19,6 +19,14 @@ func (mm *muxMux) ServeHTTP(w http.ResponseWriter, r *http.Request) {
 	}
 }
 
+func secureChain(next http.HandlerFunc) func(http.ResponseWriter, *http.Request) {
+	return withLogging(http.HandlerFunc(next)).ServeHTTP
+}
+
+func insecureChain(next http.HandlerFunc) func(http.ResponseWriter, *http.Request) {
+	return withLogging(http.HandlerFunc(next)).ServeHTTP
+}
+
 func main() {
 	apiMux := httprouter.New()
 
@@ -41,8 +49,8 @@ func main() {
 	apiMux.DELETE("/admin/admins/delete/:id", adminAdminsDelete)
 
 	filesMux := http.NewServeMux()
-	filesMux.Handle("/", http.FileServer(http.Dir("./web/dest/")))
-	apiMux.GET("/", entryHandler)
+	filesMux.Handle("/", http.FileServer(http.Dir("./web/dist/")))
+
 	mm := &muxMux{
 		api:   apiMux,
 		files: filesMux,

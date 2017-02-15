@@ -1,6 +1,24 @@
-hash: 78bf960e9c80b836a26b48d6684bebb05493f6ea90290c7dbaa58c825e85c9a9
-updated: 2017-01-09T23:19:34.120175698+08:00
+hash: 0d1ddf498213f913abe668f0ca90f7c6df793a0af8d6ce278e2c3fe1b06fed86
+updated: 2017-02-15T10:01:34.735853379+08:00
 imports:
+- name: github.com/blockninja/airscope
+  version: e7f658304547092b878617e77273318cd3597d76
+  subpackages:
+  - db
+  - models
+- name: github.com/blockninja/ninjarouter
+  version: 95d54002805fa4edde654e6574439543cf8c2f00
+- name: github.com/gorilla/sessions
+  version: ca9ada44574153444b00d3fd9c8559e4cc95f896
+- name: github.com/jmoiron/sqlx
+  version: f980a91bdc37abef88269b8f122d7de6352102f5
+  subpackages:
+  - reflectx
+  - types
 - name: github.com/julienschmidt/httprouter
   version: 8c199fb6259ffc1af525cc3ad52ee60ba8359669
+- name: github.com/lib/pq
+  version: 67c3f2a8884c9b1aac5503c8d42ae4f73a93511c
+  subpackages:
+  - oid
 testImports: []

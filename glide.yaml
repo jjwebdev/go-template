@@ -1,3 +1,5 @@
 package: github.com/nii236/gotemplate
 import:
 - package: github.com/julienschmidt/httprouter
+- package: github.com/gorilla/sessions
+  version: ~1.1.0
