@@ -15,10 +15,7 @@ cd $GOPATH/src/github.com/jjwebdev/go-template
 glide install
 cd web/
 yarn install
-cd src/semantic/
-gulp build
-cd ../..
-webpack
+yarn run build
 cd ..
 go run main.go
 ```

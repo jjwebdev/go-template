@@ -1,6 +1,7 @@
 package main
 
 import (
+	"log"
 	"net/http"
 
 	"github.com/julienschmidt/httprouter"
@@ -56,7 +57,8 @@ func main() {
 		files: filesMux,
 	}
 
-	http.ListenAndServe(":8080", mm)
+	log.Println("Your server is listening on port: 8080")
+	log.Fatalln(http.ListenAndServe(":8080", mm))
 }
 
 func sessionCreate(w http.ResponseWriter, r *http.Request, ps httprouter.Params) {
