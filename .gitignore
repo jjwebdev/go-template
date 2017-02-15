@@ -4,3 +4,4 @@ web/npm-debug.log*
 web/dest
 web/test/errorShots
 web/src/semantic/dist
+vendor
