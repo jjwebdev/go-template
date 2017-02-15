@@ -3,4 +3,9 @@ web/node_modules
 web/npm-debug.log*
 web/dest
 web/test/errorShots
+<<<<<<< HEAD
 web/semantic/dist
+=======
+web/src/semantic/dist
+vendor
+>>>>>>> 596dbfeb2ca14dab906297f9bd438530cfdd53fb

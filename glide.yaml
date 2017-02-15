@@ -1,4 +1,4 @@
-package: github.com/nii236/gotemplate
+package: github.com/jjwebdev/go-template
 import:
 - package: github.com/julienschmidt/httprouter
 - package: github.com/gorilla/sessions
