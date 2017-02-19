@@ -1,10 +1,22 @@
-package main
+package http
 
 import (
 	"log"
 	"net/http"
 	"time"
 )
+
+func publicChain(next http.HandlerFunc) http.HandlerFunc {
+	return withLogging(http.HandlerFunc(next)).ServeHTTP
+}
+
+func userChain(next http.HandlerFunc) http.HandlerFunc {
+	return withLogging(http.HandlerFunc(next)).ServeHTTP
+}
+
+func adminChain(next http.HandlerFunc) http.HandlerFunc {
+	return withLogging(http.HandlerFunc(next)).ServeHTTP
+}
 
 func withLogging(next http.Handler) http.Handler {
 	fn := func(w http.ResponseWriter, r *http.Request) {

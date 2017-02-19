@@ -1,20 +1,25 @@
 import * as React from 'react';
+import { Container, Button } from 'semantic-ui-react'
+import axios from 'axios'
 
-export class App extends React.Component<any, any> {
+const submit = (e) => {
+  axios.post('http://localhost:8080/users/sign_in', null, {headers: {'X-API': 'v1'}})
+    .then((response) => { console.log(response) })
+    .catch((err) => {console.log(err)})
+}
 
-  renderDevTool() {
-    if (process.env.NODE_ENV !== 'production') {
-      const DevTools = require('mobx-react-devtools').default;
-      return (<DevTools />);
-    }
-  };
+export const App = (props) => {
+  return (
+    <Container>
+      <Button onClick={submit} primary content="Call da server"/>
+      { DevTool(props) }
+    </Container>
+  )
+}
 
-  render() {
-    return (
-      <div className="container">
-        {this.props.children}
-        {this.renderDevTool()}
-      </div>
-    );
+const DevTool = (props) => {
+  if (process.env.NODE_ENV !== 'production') {
+    const DevTools = require('mobx-react-devtools').default;
+    return (<DevTools />)
   }
-};
+}
