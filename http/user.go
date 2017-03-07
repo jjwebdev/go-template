@@ -28,7 +28,9 @@ func newUserHandler(userService models.UserService) *UserHandler {
 
 // userCreate
 func (h *UserHandler) userCreate(w http.ResponseWriter, r *http.Request) {
-	w.Write([]byte("Create user"))
+	newUser := &models.User{}
+	mustDecodeJSON(r, newUser)
+	h.UserService.Create(newUser)
 }
 
 // userAll

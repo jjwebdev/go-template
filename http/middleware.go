@@ -37,11 +37,11 @@ func withRecover(next http.Handler) http.Handler {
 
 func withLogging(next http.Handler) http.Handler {
 	fn := func(w http.ResponseWriter, r *http.Request) {
-		fmt.Printf("-> [%s] %q", r.Method, r.URL.String())
+		fmt.Printf("-> [%s] %q\n", r.Method, r.URL.String())
 		t1 := time.Now()
 		next.ServeHTTP(w, r)
 		t2 := time.Now()
-		fmt.Printf("<- [%s] %q %v", r.Method, r.URL.String(), t2.Sub(t1))
+		fmt.Printf("<- [%s] %q %v\n", r.Method, r.URL.String(), t2.Sub(t1))
 	}
 	return http.HandlerFunc(fn)
 }

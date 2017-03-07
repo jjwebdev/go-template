@@ -17,9 +17,8 @@ type Server struct {
 
 // Open opens a socket and serves the HTTP server.
 func (s *Server) Open() error {
-	finalMuxer := cors.New(
-		cors.Options{Debug: true},
-	).Handler(s.Handler)
+	options := cors.Options{AllowedHeaders: []string{"X-API"}}
+	finalMuxer := cors.New(options).Handler(s.Handler)
 	return http.ListenAndServe(s.Addr, finalMuxer)
 }
 

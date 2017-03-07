@@ -9,8 +9,11 @@ import 'tachyons/css/tachyons.min.css'
 import axios from 'axios'
 
 const submit = () => {
-  console.log("posting")
-  axios.post("http://localhost:8080/users/create", { headers: {'X-API': 'v1'}})
+  console.log('posting')
+  axios
+    .post('http://localhost:8080/users/create', null, { headers: {'X-API': 'v1'}})
+    .then((resp) => { console.log(resp.data)})
+    .catch((err) => { console.log(err) })
 }
 
 const App = (props) => {
@@ -23,7 +26,7 @@ const App = (props) => {
         defaultSelectedKeys={['2']}
         style={{ lineHeight: '64px' }}
       >
-        <Menu.Item key="Home">Home</Menu.Item>
+        <Menu.Item key='Home'>Home</Menu.Item>
         <Link to='google'>Google</Link>
         <Link to='about'>About</Link>
       </Menu>
