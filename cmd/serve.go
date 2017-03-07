@@ -1,27 +1,29 @@
 package cmd
 
 import (
+	"log"
+
 	"github.com/jjwebdev/go-template/http"
-	"github.com/jjwebdev/go-template/storm"
-	"github.com/spf13/cobra"
+	"github.com/jjwebdev/go-template/postgres"
 )
 
-// serveCmd represents the serve command
-var serveCmd = &cobra.Command{
-	Use:   "serve",
-	Short: "A brief description of your command",
-	Long: `A longer description that spans multiple lines and likely contains examples
-and usage of using your command. For example:
-
-Cobra is a CLI library for Go that empowers applications.
-This application is a tool to generate the needed files
-to quickly create a Cobra application.`,
-	Run: func(cmd *cobra.Command, args []string) {
-		db := storm.Open()
-		http.Run(":8080", db)
-	},
+// ServeCommand holds the server command
+type ServeCommand struct {
+	c *Subcommands
 }
 
-func init() {
-	RootCmd.AddCommand(serveCmd)
+// Run will start the serve
+func (sc *ServeCommand) Run(args []string) {
+	db := postgres.Open("gotemplate", "develop", "develop", "localhost", "5432")
+
+	defer db.DB.Close()
+
+	server := http.NewServer(":8080", db.UserService)
+	log.Println("Running server on 0.0.0.0:8080")
+	log.Fatalln(server.Open())
+}
+
+// Usage will give the usage of the server
+func (sc *ServeCommand) Usage() string {
+	return "Begin the server"
 }

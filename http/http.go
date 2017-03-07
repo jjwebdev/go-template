@@ -1,24 +1,41 @@
 package http
 
 import (
-	"log"
 	"net/http"
 
+	"github.com/jjwebdev/go-template/models"
 	"github.com/rs/cors"
-
-	jjwebdev "github.com/jjwebdev/go-template/models"
 )
 
-// Run begins the server
-func Run(addr string, us jjwebdev.UserService) {
-	routes := routes(us)
+// Server represents an HTTP server.
+type Server struct {
+	// Handler to serve.
+	Handler *Handler
+	// Bind address to open.
+	Addr string
+}
 
-	log.Println("Your server is listening on port: 8080")
+// Open opens a socket and serves the HTTP server.
+func (s *Server) Open() error {
+	finalMuxer := cors.New(
+		cors.Options{Debug: true},
+	).Handler(s.Handler)
+	return http.ListenAndServe(s.Addr, finalMuxer)
+}
 
-	corsHandler := cors.New(cors.Options{
-		AllowedHeaders: []string{"X-API"},
-		AllowedMethods: []string{"GET", "PUT", "POST", "DELETE"},
-	}).Handler(routes)
+// Close closes the socket.
+func (s *Server) Close() error {
+	panic("To be implemented")
+}
 
-	log.Fatalln(http.ListenAndServe(":8080", corsHandler))
+// NewServer returns a new server
+func NewServer(port string, userService models.UserService) *Server {
+	return &Server{
+		Addr: port,
+
+		Handler: &Handler{
+			UserHandler: newUserHandler(userService),
+			FilesMux:    newFileServer(),
+		},
+	}
 }

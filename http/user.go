@@ -1,132 +1,37 @@
 package http
 
 import (
-	"log"
 	"net/http"
+
+	"github.com/jjwebdev/go-template/models"
+	"github.com/julienschmidt/httprouter"
 )
 
-func (h *UserHandlers) sessionCreate(w http.ResponseWriter, r *http.Request) {
-	details := &funcDetails{
-		Name:        "sessionCreate",
-		Description: "Not implemented",
-	}
-	log.Println("[HANDLER]", details.Name)
-	handleErrorAndRespond(details, w, "Not implemented", http.StatusNotImplemented)
+// UserHandler represents an HTTP API handler for dials.
+type UserHandler struct {
+	*httprouter.Router
+	UserService models.UserService
+	Log         models.Log
 }
 
-func (h *UserHandlers) sessionDelete(w http.ResponseWriter, r *http.Request) {
-	details := &funcDetails{
-		Name:        "sessionDelete",
-		Description: "Not implemented",
+// newUserHandler returns a new instance of UserHandler.
+func newUserHandler(userService models.UserService) *UserHandler {
+	h := &UserHandler{
+		Router:      httprouter.New(),
+		UserService: userService,
 	}
-	log.Println("[HANDLER]", details.Name)
-	handleErrorAndRespond(details, w, "Not implemented", http.StatusNotImplemented)
+	h.HandlerFunc("POST", "/users/create", insecureChain(h.userCreate))
+	h.HandlerFunc("GET", "/users/all", insecureChain(h.userAll))
+	h.NotFound = http.HandlerFunc(notFound)
+	return h
 }
 
-func (h *UserHandlers) userCreate(w http.ResponseWriter, r *http.Request) {
-	details := &funcDetails{
-		Name:        "userCreate",
-		Description: "Not implemented",
-	}
-	log.Println("[HANDLER]", details.Name)
-	handleErrorAndRespond(details, w, "Not implemented", http.StatusNotImplemented)
+// userCreate
+func (h *UserHandler) userCreate(w http.ResponseWriter, r *http.Request) {
+	w.Write([]byte("Create user"))
 }
 
-func (h *UserHandlers) userForgotPassword(w http.ResponseWriter, r *http.Request) {
-	details := &funcDetails{
-		Name:        "userForgotPassword",
-		Description: "Not implemented",
-	}
-	log.Println("[HANDLER]", details.Name)
-	handleErrorAndRespond(details, w, "Not implemented", http.StatusNotImplemented)
-}
-
-func (h *UserHandlers) adminMembersIndex(w http.ResponseWriter, r *http.Request) {
-	details := &funcDetails{
-		Name:        "adminMembersIndex",
-		Description: "Not implemented",
-	}
-	log.Println("[HANDLER]", details.Name)
-	handleErrorAndRespond(details, w, "Not implemented", http.StatusNotImplemented)
-}
-
-func (h *UserHandlers) adminMembersCreate(w http.ResponseWriter, r *http.Request) {
-	details := &funcDetails{
-		Name:        "adminMembersCreate",
-		Description: "Not implemented",
-	}
-	log.Println("[HANDLER]", details.Name)
-	handleErrorAndRespond(details, w, "Not implemented", http.StatusNotImplemented)
-}
-
-func (h *UserHandlers) adminMembersRead(w http.ResponseWriter, r *http.Request) {
-	details := &funcDetails{
-		Name:        "adminMembersRead",
-		Description: "Not implemented",
-	}
-	log.Println("[HANDLER]", details.Name)
-	handleErrorAndRespond(details, w, "Not implemented", http.StatusNotImplemented)
-}
-
-func (h *UserHandlers) adminMembersUpdate(w http.ResponseWriter, r *http.Request) {
-	details := &funcDetails{
-		Name:        "adminMembersUpdate",
-		Description: "Not implemented",
-	}
-	log.Println("[HANDLER]", details.Name)
-	handleErrorAndRespond(details, w, "Not implemented", http.StatusNotImplemented)
-}
-
-func (h *UserHandlers) adminMembersDelete(w http.ResponseWriter, r *http.Request) {
-	details := &funcDetails{
-		Name:        "adminMembersDelete",
-		Description: "Not implemented",
-	}
-	log.Println("[HANDLER]", details.Name)
-	handleErrorAndRespond(details, w, "Not implemented", http.StatusNotImplemented)
-}
-
-func (h *UserHandlers) adminAdminsIndex(w http.ResponseWriter, r *http.Request) {
-	details := &funcDetails{
-		Name:        "adminAdminsIndex",
-		Description: "Not implemented",
-	}
-	log.Println("[HANDLER]", details.Name)
-	handleErrorAndRespond(details, w, "Not implemented", http.StatusNotImplemented)
-}
-
-func (h *UserHandlers) adminAdminsCreate(w http.ResponseWriter, r *http.Request) {
-	details := &funcDetails{
-		Name:        "adminAdminsCreate",
-		Description: "Not implemented",
-	}
-	log.Println("[HANDLER]", details.Name)
-	handleErrorAndRespond(details, w, "Not implemented", http.StatusNotImplemented)
-}
-
-func (h *UserHandlers) adminAdminsRead(w http.ResponseWriter, r *http.Request) {
-	details := &funcDetails{
-		Name:        "adminAdminsRead",
-		Description: "Not implemented",
-	}
-	log.Println("[HANDLER]", details.Name)
-	handleErrorAndRespond(details, w, "Not implemented", http.StatusNotImplemented)
-}
-
-func (h *UserHandlers) adminAdminsUpdate(w http.ResponseWriter, r *http.Request) {
-	details := &funcDetails{
-		Name:        "adminAdminsUpdate",
-		Description: "Not implemented",
-	}
-	log.Println("[HANDLER]", details.Name)
-	handleErrorAndRespond(details, w, "Not implemented", http.StatusNotImplemented)
-}
-
-func (h *UserHandlers) adminAdminsDelete(w http.ResponseWriter, r *http.Request) {
-	details := &funcDetails{
-		Name:        "adminAdminsDelete",
-		Description: "Not implemented",
-	}
-	log.Println("[HANDLER]", details.Name)
-	handleErrorAndRespond(details, w, "Not implemented", http.StatusNotImplemented)
+// userAll
+func (h *UserHandler) userAll(w http.ResponseWriter, r *http.Request) {
+	w.Write([]byte("List users"))
 }

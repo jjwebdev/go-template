@@ -1,18 +1,25 @@
-import React, { Component } from 'react';
+import React, { Component } from 'react'
 import { observer } from 'mobx-react'
-import DevTools from 'mobx-react-devtools';
+import DevTools from 'mobx-react-devtools'
 import { Link } from 'react-router-dom'
-import { Layout, Menu, Breadcrumb } from 'antd';
-const { Header, Content, Footer } = Layout;
+import { Layout, Menu, Breadcrumb, Button } from 'antd'
+const { Header, Content, Footer } = Layout
 import 'antd/dist/antd.min.css'
 import 'tachyons/css/tachyons.min.css'
+import axios from 'axios'
+
+const submit = () => {
+  console.log("posting")
+  axios.post("http://localhost:8080/users/create", { headers: {'X-API': 'v1'}})
+}
+
 const App = (props) => {
   return (
-  <Layout className="min-vh-100">
+  <Layout className='min-vh-100'>
     <Header>
       <Menu
-        theme="dark"
-        mode="horizontal"
+        theme='dark'
+        mode='horizontal'
         defaultSelectedKeys={['2']}
         style={{ lineHeight: '64px' }}
       >
@@ -22,13 +29,12 @@ const App = (props) => {
       </Menu>
     </Header>
     <Content className='pa4'>
-      <div style={{ background: '#fff', padding: 24, minHeight: 280 }}>Content</div>
+        <Button onClick={submit} className='' type='primary'>Click me</Button>
     </Content>
     <Footer className='tc'>
-      Ant Design ©2016 Created by Ant UED
+      Go Tempate ©2017 Created by John Nguyen
     </Footer>
   </Layout>
-)
-}
+)}
 
-export default observer(App);
+export default observer(App)

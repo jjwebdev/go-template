@@ -1,14 +1,22 @@
 package models
 
+import "github.com/jmoiron/sqlx/types"
+
+// User contains the columns for the users of the web application.
 type User struct {
-	ID           string
-	Email        string
-	PasswordHash string
+	ID           int            `json:"id" db:"id"`
+	FirstName    string         `json:"firstName" db:"first_name"`
+	LastName     string         `json:"lastName" db:"last_name"`
+	Email        string         `json:"email" db:"email"`
+	Password     string         `json:"password" db:"password"`
+	SessionToken string         `json:"sessionToken" db:"session_token"`
+	Data         types.JSONText `json:"data" db:"data"`
+	RoleID       int            `json:"role_id" db:"role_id"`
 }
 
 // UserService contains the methods that can be done with a User
 type UserService interface {
-	Create(*User) error
+	Create(*User)
 	// Get(int) (*User, error)
-	// All() ([]*User, error)
+	All() []*User
 }

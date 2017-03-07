@@ -2,30 +2,28 @@ package http
 
 import (
 	"encoding/json"
-	"log"
 	"net/http"
+
+	"log"
 )
+
+type errorResponse struct {
+	Code    int         `json:"code"`
+	Error   string      `json:"error"`
+	Message funcDetails `json:"handler"`
+}
 
 type funcDetails struct {
 	Name        string `json:"name"`
 	Description string `json:"description"`
 }
-type errorResponse struct {
-	Code    int         `json:"code"`
-	Error   string      `json:"error"`
-	Message funcDetails `json:"message"`
-}
 
-func handleErrorAndRespond(details *funcDetails, w http.ResponseWriter, errString string, code int) {
-	log.Println(details.Name, "handler error:", errString)
-
-	w.WriteHeader(code)
-	response := &errorResponse{
-		Code:    code,
-		Error:   errString,
-		Message: *details,
+func notFound(w http.ResponseWriter, r *http.Request) {
+	details := &funcDetails{
+		Name:        "Not Found",
+		Description: "This path does not exist",
 	}
-	json.NewEncoder(w).Encode(response)
+	handleErrorAndRespond(details, w, "Path does not exist", http.StatusNotFound)
 }
 
 func marshalAndRespond(details *funcDetails, w http.ResponseWriter, result interface{}) {
@@ -34,6 +32,7 @@ func marshalAndRespond(details *funcDetails, w http.ResponseWriter, result inter
 		handleErrorAndRespond(details, w, err.Error(), http.StatusInternalServerError)
 	} else {
 		w.Write(response)
+
 	}
 }
 
@@ -43,13 +42,13 @@ func mustDecodeJSON(r *http.Request, target interface{}) {
 		panic(err)
 	}
 }
-
-func notFound(w http.ResponseWriter, r *http.Request) {
-	details := &funcDetails{
-		Name:        "notFound",
-		Description: "Path does not exist",
+func handleErrorAndRespond(details *funcDetails, w http.ResponseWriter, errString string, code int) {
+	log.Println("[HANDLER]", details.Name+":", errString)
+	w.WriteHeader(code)
+	response := &errorResponse{
+		Code:    code,
+		Error:   errString,
+		Message: *details,
 	}
-	log.Println("[HANDLER]", details.Name)
-	handleErrorAndRespond(details, w, "path does not exist", http.StatusNotFound)
-
+	json.NewEncoder(w).Encode(response)
 }
