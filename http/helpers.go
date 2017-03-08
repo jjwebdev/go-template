@@ -4,14 +4,14 @@ import (
 	"encoding/json"
 	"io"
 	"net/http"
+	"strconv"
 
 	"log"
 )
 
 type errorResponse struct {
-	Code    int         `json:"code"`
-	Error   string      `json:"error"`
-	Message funcDetails `json:"handler"`
+	Code  int    `json:"code"`
+	Error string `json:"error"`
 }
 
 type funcDetails struct {
@@ -38,6 +38,15 @@ func marshalAndRespond(details *funcDetails, w http.ResponseWriter, result inter
 	}
 }
 
+func mustParseInt(r *http.Request, name string) int {
+	result, err := strconv.Atoi(r.URL.Query().Get("id"))
+	if err != nil {
+		panic(err)
+	}
+	return result
+
+}
+
 func mustDecodeJSON(r *http.Request, target interface{}) {
 	err := json.NewDecoder(r.Body).Decode(target)
 	if err != nil {
@@ -48,9 +57,8 @@ func handleErrorAndRespond(details *funcDetails, w http.ResponseWriter, errStrin
 	log.Println("[HANDLER]", details.Name+":", errString)
 	w.WriteHeader(code)
 	response := &errorResponse{
-		Code:    code,
-		Error:   errString,
-		Message: *details,
+		Code:  code,
+		Error: errString,
 	}
 	json.NewEncoder(w).Encode(response)
 }

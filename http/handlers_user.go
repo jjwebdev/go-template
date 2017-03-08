@@ -27,14 +27,14 @@ func NewUserHandler(userService models.UserService) *UserHandler {
 	return h
 }
 
-// userCreate
+// UserCreate creates a User
 func (h *UserHandler) UserCreate(w http.ResponseWriter, r *http.Request) {
 	newUser := &models.User{}
 	mustDecodeJSON(r, newUser)
 	h.UserService.Create(newUser)
 }
 
-// RoleCreate
+// RoleCreate creates a user role
 func (h *UserHandler) RoleCreate(w http.ResponseWriter, r *http.Request) {
 	details := &funcDetails{
 		Name:        "RoleCreate",
@@ -48,8 +48,21 @@ func (h *UserHandler) RoleCreate(w http.ResponseWriter, r *http.Request) {
 
 // UserAll returns all users
 func (h *UserHandler) UserAll(w http.ResponseWriter, r *http.Request) {
-	w.Write([]byte("List users"))
+	details := &funcDetails{
+		Name:        "UserAll",
+		Description: "Returns all users",
+	}
+
+	marshalAndRespond(details, w, h.UserService.All())
 }
 
+// UserGet returns a single user
 func (h *UserHandler) UserGet(w http.ResponseWriter, r *http.Request) {
+	details := &funcDetails{
+		Name:        "UserGet",
+		Description: "Returns a single user",
+	}
+
+	id := mustParseInt(r, "id")
+	marshalAndRespond(details, w, h.UserService.Get(id))
 }

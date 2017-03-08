@@ -24,15 +24,36 @@ VALUES
 	}
 }
 
+// CreateRole will persist a role into the DB
 func (us *UserService) CreateRole(role *models.Role) {
 	_, err := us.DB.NamedExec(
 		`
 INSERT INTO roles
-	(name)
+	(name, data)
 VALUES
-	(:name)
+	(:name, :data)
 `, role)
 	if err != nil {
 		panic(err)
 	}
+}
+
+// Get will directly fetch a User from the DB
+func (us *UserService) Get(id int) *models.User {
+	result := &models.User{}
+	err := us.DB.Get(result, "SELECT * FROM users WHERE id=$1", id)
+	if err != nil {
+		panic(err)
+	}
+	return result
+}
+
+// All will return all users from the DB
+func (us *UserService) All() []*models.User {
+	result := []*models.User{}
+	err := us.Select(&result, "SELECT * FROM users;")
+	if err != nil {
+		panic(err)
+	}
+	return result
 }

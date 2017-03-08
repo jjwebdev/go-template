@@ -11,19 +11,20 @@ type User struct {
 	Password     string         `json:"password" db:"password"`
 	SessionToken string         `json:"sessionToken" db:"session_token"`
 	Data         types.JSONText `json:"data" db:"data"`
-	RoleID       int            `json:"role_id" db:"role_id"`
+	RoleID       int            `json:"roleId" db:"role_id"`
 }
 
 // Role is a user's role
 type Role struct {
-	ID   int    `json:"id" db:"id"`
-	Name string `json:"name" db:"name"`
+	ID   int            `json:"id" db:"id"`
+	Name string         `json:"name" db:"name"`
+	Data types.JSONText `json:"data" db:"data"`
 }
 
-// UserService contains the methods that can be done with a User
+// UserService contains the methods that can be done with User service
 type UserService interface {
 	CreateRole(*Role)
 	Create(*User)
-	// Get(int) (*User, error)
+	Get(int) *User
 	All() []*User
 }

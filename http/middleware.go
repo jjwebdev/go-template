@@ -1,6 +1,7 @@
 package http
 
 import (
+	"encoding/json"
 	"errors"
 	"fmt"
 	"net/http"
@@ -30,7 +31,15 @@ func withRecover(next http.Handler) http.Handler {
 					err = errors.New("Unknown error")
 				}
 				fmt.Println("panic: ", err.Error())
-				http.Error(w, err.Error(), http.StatusInternalServerError)
+				errResp := errorResponse{
+					Code:  http.StatusInternalServerError,
+					Error: err.Error(),
+				}
+				result, err := json.Marshal(errResp)
+				if err != nil {
+					return
+				}
+				http.Error(w, string(result), http.StatusInternalServerError)
 			}
 		}()
 		next.ServeHTTP(w, r)

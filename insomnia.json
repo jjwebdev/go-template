@@ -1,0 +1,151 @@
+{
+	"_type": "export",
+	"__export_format": 3,
+	"__export_date": "2017-03-08T07:04:27.534Z",
+	"__export_source": "insomnia.desktop.app:v4.2.14",
+	"resources": [
+		{
+			"_id": "wrk_9f3a6b2505ee4764b4dcccb7e3a87b85",
+			"parentId": null,
+			"modified": 1488954622639,
+			"created": 1488954622639,
+			"name": "Go Template",
+			"description": "",
+			"certificates": [],
+			"_type": "workspace"
+		},
+		{
+			"_id": "env_c1005374c23a4941b01d4319233ff48e",
+			"parentId": "wrk_9f3a6b2505ee4764b4dcccb7e3a87b85",
+			"modified": 1488954813511,
+			"created": 1488954799697,
+			"name": "Base Environment",
+			"data": {
+				"baseURL": "localhost:8080"
+			},
+			"_type": "environment"
+		},
+		{
+			"_id": "jar_45cc9ed70ce04cd1b18300ca95cb68bd",
+			"parentId": "wrk_9f3a6b2505ee4764b4dcccb7e3a87b85",
+			"modified": 1488954817477,
+			"created": 1488954817477,
+			"name": "Default Jar",
+			"cookies": [],
+			"_type": "cookie_jar"
+		},
+		{
+			"_id": "fld_a10c3060a9ec4bb4828fbb43525eac8f",
+			"parentId": "wrk_9f3a6b2505ee4764b4dcccb7e3a87b85",
+			"modified": 1488954632840,
+			"created": 1488954632840,
+			"name": "Users",
+			"environment": {},
+			"metaSortKey": -1488954632840,
+			"_type": "request_group"
+		},
+		{
+			"_id": "req_bb01f3f0801542f799a17744b7ef00f1",
+			"parentId": "fld_a10c3060a9ec4bb4828fbb43525eac8f",
+			"modified": 1488956249164,
+			"created": 1488954635173,
+			"url": "{{ baseURL }}/users/create",
+			"name": "Create",
+			"method": "POST",
+			"body": {
+				"mimeType": "application/json",
+				"text": "{\n\t\"firstName\": \"John\",\n\t\"lastName\": \"Nguyen\",\n\t\"email\": \"jtnguyen236@gmail.com\",\n\t\"roleId\": 1,\n\t\"password\": \"Password1\",\n\t\"sessionToken\": \"\",\n\t\"json\": {}\n}"
+			},
+			"parameters": [
+				{
+					"name": "",
+					"value": ""
+				}
+			],
+			"headers": [
+				{
+					"name": "X-API",
+					"value": "v1"
+				},
+				{
+					"name": "Content-Type",
+					"value": "application/json"
+				}
+			],
+			"authentication": {},
+			"metaSortKey": -1488954635173,
+			"_type": "request"
+		},
+		{
+			"_id": "req_99d7ca0dabe44429b75b95a8dcf066ff",
+			"parentId": "fld_a10c3060a9ec4bb4828fbb43525eac8f",
+			"modified": 1488954864808,
+			"created": 1488954639651,
+			"url": "{{ baseURL }}/users/show?id=1",
+			"name": "Get",
+			"method": "GET",
+			"body": {
+				"text": ""
+			},
+			"parameters": [],
+			"headers": [
+				{
+					"name": "X-API",
+					"value": "v1"
+				}
+			],
+			"authentication": {},
+			"metaSortKey": -1488954635172,
+			"_type": "request"
+		},
+		{
+			"_id": "req_a39cff30c6bc4de6becbe025cc43e478",
+			"parentId": "fld_a10c3060a9ec4bb4828fbb43525eac8f",
+			"modified": 1488956438868,
+			"created": 1488954641683,
+			"url": "{{ baseURL }}/users/roles/create",
+			"name": "RoleCreate",
+			"method": "POST",
+			"body": {
+				"mimeType": "application/json",
+				"text": "{\n\t\"name\": \"SuperAdmin\"\n}"
+			},
+			"parameters": [],
+			"headers": [
+				{
+					"name": "X-API",
+					"value": "v1"
+				},
+				{
+					"name": "Content-Type",
+					"value": "application/json"
+				}
+			],
+			"authentication": {},
+			"metaSortKey": -1488954635171,
+			"_type": "request"
+		},
+		{
+			"_id": "req_ee2bdbb41bdf408695b68c7730767b76",
+			"parentId": "fld_a10c3060a9ec4bb4828fbb43525eac8f",
+			"modified": 1488954872660,
+			"created": 1488954644403,
+			"url": "{{ baseURL }}/users/all",
+			"name": "All",
+			"method": "GET",
+			"body": {
+				"text": ""
+			},
+			"parameters": [],
+			"headers": [
+				{
+					"name": "X-API",
+					"value": "v1"
+				}
+			],
+			"authentication": {},
+			"metaSortKey": -1488954635170,
+			"_type": "request"
+		}
+	]
+}

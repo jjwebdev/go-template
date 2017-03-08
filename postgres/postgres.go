@@ -5,7 +5,6 @@ import (
 	"io/ioutil"
 	"log"
 
-	"github.com/jjwebdev/go-template/models"
 	"github.com/jmoiron/sqlx"
 
 	// Postgres driver
@@ -59,17 +58,6 @@ func (db *DB) Migrate() {
 		panic(err)
 	}
 	db.DB.MustExec(string(schema))
-
-}
-
-// All will return all users
-func (us *UserService) All() []*models.User {
-	result := []*models.User{}
-	err := us.Select(&result, "SELECT * FROM users;")
-	if err != nil {
-		panic(err)
-	}
-	return result
 }
 
 // Drop will drop the entire schema
