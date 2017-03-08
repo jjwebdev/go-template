@@ -9,7 +9,7 @@ type DropCommand struct {
 }
 
 // Run will begin database migration
-func (mc *DropCommand) Run(args []string) {
+func (mc *DropCommand) Run() {
 	db := postgres.Open("gotemplate", "develop", "develop", "localhost", "5432")
 	db.Drop()
 	defer db.Close()

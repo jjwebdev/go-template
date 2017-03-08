@@ -4,7 +4,7 @@ import (
 	"net/http"
 )
 
-func newFileServer() *http.ServeMux {
+func NewFileServer() *http.ServeMux {
 	fileshttp := http.NewServeMux()
 	fileshttp.Handle("/", http.FileServer(http.Dir("./web/public/")))
 	return fileshttp

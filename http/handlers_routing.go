@@ -2,12 +2,14 @@ package http
 
 import (
 	"net/http"
+	"os"
 	"strings"
 )
 
 // Handler is a collection of all the service handlers.
 type Handler struct {
 	UserHandler *UserHandler
+	AppHandler  *AppHandler
 	FilesMux    *http.ServeMux
 }
 
@@ -20,6 +22,11 @@ func (h *Handler) ServeHTTP(w http.ResponseWriter, r *http.Request) {
 			notFound(w, r)
 		}
 	} else {
-		h.FilesMux.ServeHTTP(w, r)
+		if os.Getenv("PROD") != "" {
+			h.FilesMux.ServeHTTP(w, r)
+		} else {
+			h.AppHandler.ReverseProxy(w, r)
+		}
+
 	}
 }

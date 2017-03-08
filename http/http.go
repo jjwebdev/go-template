@@ -9,17 +9,15 @@ import (
 
 // Server represents an HTTP server.
 type Server struct {
-	// Handler to serve.
 	Handler *Handler
-	// Bind address to open.
-	Addr string
+	Addr    string
 }
 
 // Open opens a socket and serves the HTTP server.
 func (s *Server) Open() error {
-	options := cors.Options{AllowedHeaders: []string{"X-API"}}
-	finalMuxer := cors.New(options).Handler(s.Handler)
-	return http.ListenAndServe(s.Addr, finalMuxer)
+	CORSOptions := cors.Options{AllowedHeaders: []string{"X-API"}}
+	CORSMux := cors.New(CORSOptions).Handler(s.Handler)
+	return http.ListenAndServe(s.Addr, CORSMux)
 }
 
 // Close closes the socket.
@@ -31,10 +29,10 @@ func (s *Server) Close() error {
 func NewServer(port string, userService models.UserService) *Server {
 	return &Server{
 		Addr: port,
-
 		Handler: &Handler{
-			UserHandler: newUserHandler(userService),
-			FilesMux:    newFileServer(),
+			UserHandler: NewUserHandler(userService),
+			AppHandler:  NewAppHandler(),
+			FilesMux:    NewFileServer(),
 		},
 	}
 }

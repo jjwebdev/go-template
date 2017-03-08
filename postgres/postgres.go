@@ -25,7 +25,7 @@ func Open(dbname, username, password, host, port string) *DB {
 	db, err := sqlx.Open("postgres", fmt.Sprintf("dbname=%s user=%s password=%s host=%s port=%s sslmode=disable", dbname, username, password, host, port))
 
 	if err != nil {
-		log.Fatalln(err)
+		panic(err)
 	}
 
 	userService := &UserService{
@@ -56,7 +56,7 @@ func Client() *DB {
 func (db *DB) Migrate() {
 	schema, err := ioutil.ReadFile("./postgres/migrate.sql")
 	if err != nil {
-		log.Fatalln(err)
+		panic(err)
 	}
 	db.DB.MustExec(string(schema))
 

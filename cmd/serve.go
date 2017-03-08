@@ -13,7 +13,7 @@ type ServeCommand struct {
 }
 
 // Run will start the serve
-func (sc *ServeCommand) Run(args []string) {
+func (sc *ServeCommand) Run() {
 	db := postgres.Open("gotemplate", "develop", "develop", "localhost", "5432")
 
 	defer db.DB.Close()

@@ -8,7 +8,11 @@ import (
 )
 
 func insecureChain(h http.HandlerFunc) func(http.ResponseWriter, *http.Request) {
-	return withLogging(withRecover(http.HandlerFunc(h))).ServeHTTP
+	return withLogging(
+		withRecover(
+			http.HandlerFunc(h),
+		),
+	).ServeHTTP
 }
 
 func withRecover(next http.Handler) http.Handler {

@@ -14,8 +14,15 @@ type User struct {
 	RoleID       int            `json:"role_id" db:"role_id"`
 }
 
+// Role is a user's role
+type Role struct {
+	ID   int    `json:"id" db:"id"`
+	Name string `json:"name" db:"name"`
+}
+
 // UserService contains the methods that can be done with a User
 type UserService interface {
+	CreateRole(*Role)
 	Create(*User)
 	// Get(int) (*User, error)
 	All() []*User

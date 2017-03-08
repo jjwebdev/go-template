@@ -19,5 +19,6 @@ CREATE TABLE users (
 
 ALTER TABLE ONLY users ADD CONSTRAINT users_pkey PRIMARY KEY (id);
 ALTER TABLE ONLY roles ADD CONSTRAINT roles_pkey PRIMARY KEY (id);
+ALTER TABLE ONLY roles ADD CONSTRAINT unique_role UNIQUE (name);
 
 ALTER TABLE ONLY users ADD CONSTRAINT users_roles_fkey FOREIGN KEY (role_id) REFERENCES roles(id);

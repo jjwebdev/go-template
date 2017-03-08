@@ -11,7 +11,7 @@ import axios from 'axios'
 const submit = () => {
   console.log('posting')
   axios
-    .post('http://localhost:8080/users/create', null, { headers: {'X-API': 'v1'}})
+    .post('/users/create', {"role_id": 1}, { headers: {'X-API': 'v1'}})
     .then((resp) => { console.log(resp.data)})
     .catch((err) => { console.log(err) })
 }

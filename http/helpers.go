@@ -2,6 +2,7 @@ package http
 
 import (
 	"encoding/json"
+	"io"
 	"net/http"
 
 	"log"
@@ -23,6 +24,7 @@ func notFound(w http.ResponseWriter, r *http.Request) {
 		Name:        "Not Found",
 		Description: "This path does not exist",
 	}
+	log.Println(r.URL.EscapedPath())
 	handleErrorAndRespond(details, w, "Path does not exist", http.StatusNotFound)
 }
 
@@ -51,4 +53,8 @@ func handleErrorAndRespond(details *funcDetails, w http.ResponseWriter, errStrin
 		Message: *details,
 	}
 	json.NewEncoder(w).Encode(response)
+}
+
+func NewRequest(method, urlStr string, body io.Reader) (*http.Request, error) {
+	return http.NewRequest(method, urlStr, body)
 }

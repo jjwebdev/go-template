@@ -9,7 +9,7 @@ type MigrateCommand struct {
 }
 
 // Run will begin database migration
-func (mc *MigrateCommand) Run(args []string) {
+func (mc *MigrateCommand) Run() {
 	db := postgres.Open("gotemplate", "develop", "develop", "localhost", "5432")
 	db.Migrate()
 	defer db.Close()
